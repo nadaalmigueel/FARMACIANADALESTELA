@@ -82,7 +82,8 @@ export function EncargosTable({ encargos }: { encargos: Encargo[] }) {
           <div className="mt-4 flex flex-wrap gap-2">
             <a
               href={whatsappUrl(
-                `Hola ${e.nombre}, tu encargo en la Farmacia Nadal Estela ya está preparado. Puedes pasar a recogerlo en nuestro horario de lunes a sábado de 8:00 a 22:00. ¡Gracias!`,
+                `Hola ${e.nombre}, tu encargo en la Farmacia Nadal Estela ya está preparado. Puedes pasar a recogerlo en nuestro horario de lunes a sábado de 9:00 a 22:00. ¡Gracias!`,
+                e.telefono,
               )}
               target="_blank"
               rel="noopener noreferrer"

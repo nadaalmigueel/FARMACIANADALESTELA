@@ -7,34 +7,6 @@ export const metadata: Metadata = {
     "Conoce la historia de la Farmacia Nadal Estela y al equipo que cuida de tu salud en Palma de Mallorca.",
 }
 
-const team = [
-  {
-    name: "Antonio Nadal Estela",
-    role: "Farmacéutico titular",
-    degree: "Licenciado en Farmacia",
-  },
-  {
-    name: "Rosa María Nadal Mateu",
-    role: "Farmacéutica adjunta",
-    degree: "Farmacéutica Licenciada · Innovación Farmacéutica",
-  },
-  {
-    name: "Julia",
-    role: "Farmacéutica adjunta",
-    degree: "Farmacéutica Licenciada",
-  },
-  {
-    name: "Juan Carlos",
-    role: "Auxiliar de Farmacia",
-    degree: "",
-  },
-  {
-    name: "Irene",
-    role: "Técnica de Farmacia",
-    degree: "Técnico en Farmacia",
-  },
-]
-
 export default function NosotrosPage() {
   return (
     <>
@@ -88,48 +60,6 @@ export default function NosotrosPage() {
               bienestar es nuestra prioridad y donde, aunque hayamos cambiado de plaza y de nombre,
               el compromiso contigo sigue siendo exactamente el mismo que el primer día.
             </p>
-          </div>
-        </div>
-      </section>
-
-      <section className="border-t border-border bg-secondary/40 py-16">
-        <div className="mx-auto max-w-7xl px-4">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-balance font-heading text-3xl font-bold text-foreground md:text-4xl">
-              Nuestro equipo
-            </h2>
-            <p className="mt-3 text-pretty text-muted-foreground">
-              Profesionales cualificados y comprometidos, siempre dispuestos a ayudarte.
-            </p>
-          </div>
-
-          <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {team.map((member) => (
-              <figure
-                key={member.name}
-                className="group flex flex-col items-center overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
-              >
-                <div className="flex aspect-square w-full items-center justify-center bg-muted">
-                  <svg
-                    viewBox="0 0 24 24"
-                    className="h-2/3 w-2/3 text-muted-foreground/40"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0 2c-4.42 0-8 2.69-8 6v2h16v-2c0-3.31-3.58-6-8-6Z" />
-                  </svg>
-                </div>
-                <figcaption className="flex flex-col items-center gap-1 p-6 text-center">
-                  <h3 className="font-heading text-lg font-semibold text-foreground">
-                    {member.name}
-                  </h3>
-                  <p className="text-sm font-medium text-primary">{member.role}</p>
-                  {member.degree && (
-                    <p className="text-xs text-muted-foreground">{member.degree}</p>
-                  )}
-                </figcaption>
-              </figure>
-            ))}
           </div>
         </div>
       </section>

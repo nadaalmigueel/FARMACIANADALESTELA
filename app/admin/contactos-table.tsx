@@ -91,6 +91,7 @@ export function ContactosTable({ contactos }: { contactos: Contacto[] }) {
             <a
               href={whatsappUrl(
                 `Hola ${c.nombre}, te escribimos desde la Farmacia Nadal Estela en respuesta a tu consulta.`,
+                c.telefono,
               )}
               target="_blank"
               rel="noopener noreferrer"
@@ -103,6 +104,7 @@ export function ContactosTable({ contactos }: { contactos: Contacto[] }) {
               href={mailtoUrl(
                 "Respuesta a tu consulta - Farmacia Nadal Estela",
                 `Hola ${c.nombre},\n\nGracias por contactar con la Farmacia Nadal Estela.\n\n`,
+                c.email,
               )}
               target="_blank"
               rel="noopener noreferrer"

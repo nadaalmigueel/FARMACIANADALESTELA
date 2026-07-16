@@ -19,12 +19,24 @@ export const navLinks = [
   { href: "/contacto", label: "Contacto" },
 ]
 
-export function whatsappUrl(message: string) {
-  return `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(message)}`
+// Normaliza un teléfono para WhatsApp: solo dígitos y con prefijo de país.
+// Si es un número español de 9 cifras (empieza por 6, 7 o 9) le añade el 34.
+export function normalizePhone(phone: string) {
+  let digits = (phone ?? "").replace(/\D/g, "")
+  if (digits.startsWith("00")) digits = digits.slice(2)
+  if (digits.length === 9 && /^[679]/.test(digits)) digits = `34${digits}`
+  return digits
 }
 
-export function mailtoUrl(subject: string, body: string) {
-  return `https://mail.google.com/mail/?view=cm&fs=1&to=${site.email}&su=${encodeURIComponent(
+// Por defecto escribe a la farmacia. Si se pasa `phone`, escribe a ese número (p. ej. un cliente).
+export function whatsappUrl(message: string, phone?: string) {
+  const to = phone ? normalizePhone(phone) : site.whatsapp
+  return `https://wa.me/${to}?text=${encodeURIComponent(message)}`
+}
+
+// Por defecto escribe a la farmacia. Si se pasa `to`, escribe a esa dirección (p. ej. un cliente).
+export function mailtoUrl(subject: string, body: string, to: string = site.email) {
+  return `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(to)}&su=${encodeURIComponent(
     subject,
   )}&body=${encodeURIComponent(body)}`
 }
