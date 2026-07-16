@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react"
 import { MessageCircle, Phone, Check, Clock } from "lucide-react"
-import { whatsappUrl } from "@/lib/site"
+import { whatsappUrlToCliente } from "@/lib/site"
 import { toggleEncargoAtendido } from "./actions"
 import type { Encargo } from "./types"
 import { cn } from "@/lib/utils"
@@ -81,8 +81,9 @@ export function EncargosTable({ encargos }: { encargos: Encargo[] }) {
 
           <div className="mt-4 flex flex-wrap gap-2">
             <a
-              href={whatsappUrl(
-                `Hola ${e.nombre}, tu encargo en la Farmacia Nadal Estela ya está preparado. Puedes pasar a recogerlo en nuestro horario de lunes a sábado de 8:00 a 22:00. ¡Gracias!`,
+              href={whatsappUrlToCliente(
+                e.telefono,
+                `Hola ${e.nombre}, tu encargo en la Farmacia Nadal Estela ya está preparado. Puedes pasar a recogerlo en nuestro horario de lunes a sábado de 9:00 a 22:00. ¡Gracias!`,
               )}
               target="_blank"
               rel="noopener noreferrer"

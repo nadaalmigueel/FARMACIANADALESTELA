@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react"
 import { MessageCircle, Mail, Phone, Check, Clock } from "lucide-react"
-import { whatsappUrl, mailtoUrl } from "@/lib/site"
+import { whatsappUrlToCliente, mailtoUrlToCliente } from "@/lib/site"
 import { toggleContactoAtendido } from "./actions"
 import type { Contacto } from "./types"
 import { cn } from "@/lib/utils"
@@ -89,7 +89,8 @@ export function ContactosTable({ contactos }: { contactos: Contacto[] }) {
 
           <div className="mt-4 flex flex-wrap gap-2">
             <a
-              href={whatsappUrl(
+              href={whatsappUrlToCliente(
+                c.telefono,
                 `Hola ${c.nombre}, te escribimos desde la Farmacia Nadal Estela en respuesta a tu consulta.`,
               )}
               target="_blank"
@@ -100,7 +101,8 @@ export function ContactosTable({ contactos }: { contactos: Contacto[] }) {
               Responder por WhatsApp
             </a>
             <a
-              href={mailtoUrl(
+              href={mailtoUrlToCliente(
+                c.email,
                 "Respuesta a tu consulta - Farmacia Nadal Estela",
                 `Hola ${c.nombre},\n\nGracias por contactar con la Farmacia Nadal Estela.\n\n`,
               )}
