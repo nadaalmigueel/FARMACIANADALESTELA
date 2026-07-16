@@ -28,15 +28,25 @@ export function normalizePhone(phone: string) {
   return digits
 }
 
-// Por defecto escribe a la farmacia. Si se pasa `phone`, escribe a ese número (p. ej. un cliente).
-export function whatsappUrl(message: string, phone?: string) {
-  const to = phone ? normalizePhone(phone) : site.whatsapp
-  return `https://wa.me/${to}?text=${encodeURIComponent(message)}`
+// --- Enlaces del CLIENTE hacia la FARMACIA (uso en la web pública) ---
+export function whatsappUrl(message: string) {
+  return `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(message)}`
 }
 
-// Por defecto escribe a la farmacia. Si se pasa `to`, escribe a esa dirección (p. ej. un cliente).
-export function mailtoUrl(subject: string, body: string, to: string = site.email) {
-  return `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(to)}&su=${encodeURIComponent(
-    subject,
-  )}&body=${encodeURIComponent(body)}`
+export function mailtoUrl(subject: string, body: string) {
+  return `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(
+    site.email,
+  )}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+}
+
+// --- Enlaces de la FARMACIA hacia un CLIENTE (uso EXCLUSIVO del panel admin) ---
+// Escriben SIEMPRE al contacto que dejó el cliente en el formulario. Nunca a la farmacia.
+export function whatsappUrlToCliente(telefonoCliente: string, message: string) {
+  return `https://wa.me/${normalizePhone(telefonoCliente)}?text=${encodeURIComponent(message)}`
+}
+
+export function mailtoUrlToCliente(emailCliente: string, subject: string, body: string) {
+  return `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(
+    emailCliente,
+  )}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
 }
