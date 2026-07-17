@@ -16,9 +16,38 @@ const poppins = Poppins({
 })
 
 export const metadata: Metadata = {
-  title: "Farmacia Nadal Estela | Tu farmacia de confianza en Palma",
+  metadataBase: new URL("https://farmacianadalestela.com"),
+  title: {
+    default: "Farmacia Nadal Estela | Tu farmacia en Palma de Mallorca",
+    template: "%s | Farmacia Nadal Estela",
+  },
   description:
-    "Farmacia Nadal Estela en Palma de Mallorca. Encargo Express, atención personalizada, consejos de salud y servicios farmacéuticos de confianza.",
+    "Farmacia Nadal Estela en Palma de Mallorca (Carrer Aragó, 231). Abierto de lunes a sábado de 9 a 22h. Encargo Express, atención personalizada, dermofarmacia, SPD y consejos de salud.",
+  keywords: [
+    "Farmacia Nadal Estela",
+    "farmacia Palma",
+    "farmacia Palma de Mallorca",
+    "farmacia Carrer Aragó",
+    "farmacia Llevant",
+    "encargo express farmacia",
+    "dermofarmacia Palma",
+  ],
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    locale: "es_ES",
+    url: "https://farmacianadalestela.com",
+    siteName: "Farmacia Nadal Estela",
+    title: "Farmacia Nadal Estela | Tu farmacia en Palma de Mallorca",
+    description:
+      "Tu farmacia de confianza en Palma de Mallorca. Abierto de lunes a sábado de 9 a 22h. Encargo Express, atención personalizada y servicios farmacéuticos.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
   generator: "v0.app",
 }
 
