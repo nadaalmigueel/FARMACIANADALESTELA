@@ -11,6 +11,7 @@ import {
   destroySession,
   isAuthenticated,
 } from "@/lib/admin-auth"
+import { sanitizeRich, stripHtml } from "@/lib/html"
 
 export type LoginState = { error?: string }
 
@@ -70,8 +71,8 @@ export async function guardarArticulo(
 
   const idRaw = String(formData.get("id") ?? "").trim()
   const titulo = String(formData.get("titulo") ?? "").trim()
-  const resumen = String(formData.get("resumen") ?? "").trim()
-  const contenido = String(formData.get("contenido") ?? "").trim()
+  const resumen = sanitizeRich(String(formData.get("resumen") ?? "")).trim()
+  const contenido = sanitizeRich(String(formData.get("contenido") ?? "")).trim()
   const categoria = String(formData.get("categoria") ?? "").trim()
   const autor = String(formData.get("autor") ?? "").trim()
   const imagen = String(formData.get("imagen") ?? "").trim()
@@ -82,7 +83,7 @@ export async function guardarArticulo(
   const publicado = formData.get("publicado") === "on"
 
   if (titulo.length < 3) return { ok: false, message: "El título es demasiado corto." }
-  if (resumen.length < 10) return { ok: false, message: "El resumen es demasiado corto." }
+  if (stripHtml(resumen).length < 10) return { ok: false, message: "El resumen es demasiado corto." }
   if (!categoria) return { ok: false, message: "Selecciona una categoría." }
   if (!autor) return { ok: false, message: "Indica el autor." }
 

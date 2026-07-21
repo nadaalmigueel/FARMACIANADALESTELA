@@ -42,7 +42,10 @@ export function ArticulosList({ articulos }: { articulos: ArticuloView[] }) {
                 <h3 className="font-heading text-lg font-semibold leading-snug text-foreground">
                   {a.titulo}
                 </h3>
-                <p className="text-sm leading-relaxed text-muted-foreground">{a.resumen}</p>
+                <p
+                  className="text-sm leading-relaxed text-muted-foreground"
+                  dangerouslySetInnerHTML={{ __html: a.resumen }}
+                />
                 <div className="mt-auto flex flex-wrap items-center gap-x-4 gap-y-1 pt-2 text-xs text-muted-foreground">
                   <span className="flex items-center gap-1">
                     <User className="size-3.5" aria-hidden="true" />

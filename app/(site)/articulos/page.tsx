@@ -3,6 +3,7 @@ import { PageHeader } from "@/components/page-header"
 import { ArticulosList } from "@/components/articulos-list"
 import { getArticulosPublicados } from "@/lib/db/queries"
 import type { ArticuloView } from "@/lib/articulos"
+import { sanitizeInline } from "@/lib/html"
 
 export const metadata: Metadata = {
   title: "¿Sabías que? | Farmacia Nadal Estela",
@@ -26,7 +27,7 @@ export default async function ArticulosPage() {
   const articulos: ArticuloView[] = rows.map((a) => ({
     slug: a.slug,
     titulo: a.titulo,
-    resumen: a.resumen,
+    resumen: sanitizeInline(a.resumen),
     categoria: a.categoria,
     autor: a.autor,
     fechaTexto: fechaTexto(a.fecha),

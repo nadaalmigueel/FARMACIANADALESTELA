@@ -5,6 +5,7 @@ import { useFormStatus } from "react-dom"
 import { ArrowLeft, Upload, X, Loader2 } from "lucide-react"
 import { guardarArticulo, type ArticuloState } from "./actions"
 import type { Articulo } from "./types"
+import { RichTextEditor } from "@/components/rich-text-editor"
 
 const CATEGORIAS = ["Dermocosmética", "Salud", "Nutrición", "Infantil"]
 
@@ -265,30 +266,17 @@ export function ArticuloForm({
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <label htmlFor="resumen" className="text-sm font-medium text-foreground">
+          <span className="text-sm font-medium text-foreground">
             Resumen (aparece en la tarjeta)
-          </label>
-          <textarea
-            id="resumen"
-            name="resumen"
-            defaultValue={articulo?.resumen ?? ""}
-            required
-            rows={3}
-            className={inputClass}
-          />
+          </span>
+          <RichTextEditor name="resumen" defaultValue={articulo?.resumen ?? ""} minHeight={80} />
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <label htmlFor="contenido" className="text-sm font-medium text-foreground">
+          <span className="text-sm font-medium text-foreground">
             Contenido completo (opcional)
-          </label>
-          <textarea
-            id="contenido"
-            name="contenido"
-            defaultValue={articulo?.contenido ?? ""}
-            rows={8}
-            className={inputClass}
-          />
+          </span>
+          <RichTextEditor name="contenido" defaultValue={articulo?.contenido ?? ""} minHeight={220} />
         </div>
 
         <label className="flex items-center gap-2.5 text-sm font-medium text-foreground">
