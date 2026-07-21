@@ -42,9 +42,23 @@ export function ArticuloForm({
   const [errorImagen, setErrorImagen] = useState("")
   const fileInputRef = useRef<HTMLInputElement>(null)
 
+  const [imagenes, setImagenes] = useState<string[]>(articulo?.imagenes ?? [])
+  const [subiendoGaleria, setSubiendoGaleria] = useState(false)
+  const [errorGaleria, setErrorGaleria] = useState("")
+  const galeriaInputRef = useRef<HTMLInputElement>(null)
+
   useEffect(() => {
     if (state.ok) onClose()
   }, [state.ok, onClose])
+
+  async function subirArchivo(file: File): Promise<string> {
+    const data = new FormData()
+    data.append("file", file)
+    const res = await fetch("/api/admin/upload", { method: "POST", body: data })
+    const json = await res.json()
+    if (!res.ok) throw new Error(json.error ?? "Error al subir")
+    return json.url as string
+  }
 
   async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
@@ -52,17 +66,28 @@ export function ArticuloForm({
     setErrorImagen("")
     setSubiendo(true)
     try {
-      const data = new FormData()
-      data.append("file", file)
-      const res = await fetch("/api/admin/upload", { method: "POST", body: data })
-      const json = await res.json()
-      if (!res.ok) throw new Error(json.error ?? "Error al subir")
-      setImagen(json.url)
+      setImagen(await subirArchivo(file))
     } catch (err) {
       setErrorImagen((err as Error).message || "No se pudo subir la imagen.")
     } finally {
       setSubiendo(false)
       if (fileInputRef.current) fileInputRef.current.value = ""
+    }
+  }
+
+  async function handleGaleriaChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = Array.from(e.target.files ?? [])
+    if (files.length === 0) return
+    setErrorGaleria("")
+    setSubiendoGaleria(true)
+    try {
+      const urls = await Promise.all(files.map((f) => subirArchivo(f)))
+      setImagenes((prev) => [...prev, ...urls])
+    } catch (err) {
+      setErrorGaleria((err as Error).message || "No se pudieron subir las imágenes.")
+    } finally {
+      setSubiendoGaleria(false)
+      if (galeriaInputRef.current) galeriaInputRef.current.value = ""
     }
   }
 
@@ -178,6 +203,65 @@ export function ArticuloForm({
           />
           {errorImagen && <span className="text-xs text-destructive">{errorImagen}</span>}
           <span className="text-xs text-muted-foreground">Formatos de imagen · máx. 5 MB</span>
+        </div>
+
+        <div className="flex flex-col gap-1.5">
+          <span className="text-sm font-medium text-foreground">
+            Imágenes adicionales (productos)
+          </span>
+          <p className="text-xs text-muted-foreground">
+            Se muestran al final del artículo. Ideal para fotos de los productos que quieres
+            promocionar.
+          </p>
+
+          {imagenes.map((url, i) => (
+            <input key={`${url}-${i}`} type="hidden" name="imagenes" value={url} />
+          ))}
+
+          <div className="mt-1 flex flex-wrap gap-3">
+            {imagenes.map((url, i) => (
+              <div
+                key={`${url}-${i}`}
+                className="relative size-24 overflow-hidden rounded-xl border border-border"
+              >
+                <img src={url || "/placeholder.svg"} alt={`Imagen ${i + 1}`} className="size-full object-cover" />
+                <button
+                  type="button"
+                  onClick={() => setImagenes((prev) => prev.filter((_, idx) => idx !== i))}
+                  className="absolute right-1 top-1 inline-flex size-6 items-center justify-center rounded-full bg-foreground/70 text-background transition-colors hover:bg-foreground"
+                  aria-label={`Quitar imagen ${i + 1}`}
+                >
+                  <X className="size-3.5" />
+                </button>
+              </div>
+            ))}
+
+            <button
+              type="button"
+              onClick={() => galeriaInputRef.current?.click()}
+              disabled={subiendoGaleria}
+              className="flex size-24 flex-col items-center justify-center gap-1 rounded-xl border-2 border-dashed border-input bg-muted/40 text-[11px] text-muted-foreground transition-colors hover:border-primary hover:text-primary disabled:opacity-60"
+            >
+              {subiendoGaleria ? (
+                <Loader2 className="size-5 animate-spin" />
+              ) : (
+                <>
+                  <Upload className="size-5" />
+                  Añadir
+                </>
+              )}
+            </button>
+          </div>
+
+          <input
+            ref={galeriaInputRef}
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={handleGaleriaChange}
+            className="hidden"
+          />
+          {errorGaleria && <span className="text-xs text-destructive">{errorGaleria}</span>}
         </div>
 
         <div className="flex flex-col gap-1.5">

@@ -5,7 +5,7 @@ import { getArticulosPublicados } from "@/lib/db/queries"
 import type { ArticuloView } from "@/lib/articulos"
 
 export const metadata: Metadata = {
-  title: "Artículos y consejos | Farmacia Nadal Estela",
+  title: "¿Sabías que? | Farmacia Nadal Estela",
   description:
     "Consejos de salud, dermocosmética, nutrición y cuidado infantil escritos por el equipo de la Farmacia Nadal Estela.",
 }
@@ -36,9 +36,9 @@ export default async function ArticulosPage() {
   return (
     <>
       <PageHeader
-        eyebrow="Artículos"
+        eyebrow="¿Sabías que?"
         title="Consejos de salud para tu día a día"
-        subtitle="Artículos escritos por nuestro equipo farmacéutico. Filtra por categoría para encontrar rápidamente lo que buscas."
+        subtitle="Consejos y curiosidades escritos por nuestro equipo farmacéutico. Filtra por categoría para encontrar rápidamente lo que buscas."
       />
 
       <section className="mx-auto max-w-7xl px-4 py-14">

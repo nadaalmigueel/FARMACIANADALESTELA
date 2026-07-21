@@ -45,7 +45,7 @@ export default async function ArticuloPage({
         className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
       >
         <ArrowLeft className="size-4" aria-hidden="true" />
-        Volver a artículos
+        Volver a ¿Sabías que?
       </Link>
 
       <header className="mt-6">
@@ -87,6 +87,28 @@ export default async function ArticuloPage({
           <p className="text-muted-foreground">Este artículo todavía no tiene contenido.</p>
         )}
       </div>
+
+      {articulo.imagenes && articulo.imagenes.length > 0 && (
+        <div className="mt-10">
+          <h2 className="font-heading text-lg font-semibold text-foreground">
+            Productos relacionados
+          </h2>
+          <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
+            {articulo.imagenes.map((url, i) => (
+              <div
+                key={`${url}-${i}`}
+                className="overflow-hidden rounded-2xl border border-border bg-card"
+              >
+                <img
+                  src={url || "/placeholder.svg"}
+                  alt={`${articulo.titulo} - imagen ${i + 1}`}
+                  className="aspect-square w-full object-cover"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </article>
   )
 }

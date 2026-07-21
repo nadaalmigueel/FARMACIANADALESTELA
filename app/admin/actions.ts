@@ -75,6 +75,10 @@ export async function guardarArticulo(
   const categoria = String(formData.get("categoria") ?? "").trim()
   const autor = String(formData.get("autor") ?? "").trim()
   const imagen = String(formData.get("imagen") ?? "").trim()
+  const imagenes = formData
+    .getAll("imagenes")
+    .map((v) => String(v).trim())
+    .filter(Boolean)
   const publicado = formData.get("publicado") === "on"
 
   if (titulo.length < 3) return { ok: false, message: "El título es demasiado corto." }
@@ -89,6 +93,7 @@ export async function guardarArticulo(
     categoria,
     autor,
     imagen: imagen || null,
+    imagenes: imagenes.length > 0 ? imagenes : null,
     publicado,
   }
 

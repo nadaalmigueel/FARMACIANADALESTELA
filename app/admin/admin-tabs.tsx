@@ -36,7 +36,7 @@ export function AdminTabs({
     },
     {
       id: "articulos" as const,
-      label: "Artículos",
+      label: "¿Sabías que?",
       icon: FileText,
       count: 0,
     },
