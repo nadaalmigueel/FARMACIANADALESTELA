@@ -3,6 +3,7 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 import { ArrowLeft, CalendarDays, User, Tag } from "lucide-react"
 import { getArticuloPorSlug } from "@/lib/db/queries"
+import { contenidoToHtml, stripHtml } from "@/lib/html"
 
 export const dynamic = "force-dynamic"
 
@@ -24,7 +25,7 @@ export async function generateMetadata({
   if (!articulo) return { title: "Artículo no encontrado | Farmacia Nadal Estela" }
   return {
     title: `${articulo.titulo} | Farmacia Nadal Estela`,
-    description: articulo.resumen,
+    description: stripHtml(articulo.resumen),
   }
 }
 
@@ -78,15 +79,14 @@ export default async function ArticuloPage({
         </div>
       )}
 
-      <div className="mt-8 space-y-5 leading-relaxed text-foreground/90">
-        {articulo.contenido ? (
-          articulo.contenido
-            .split(/\n{2,}/)
-            .map((parrafo, i) => <p key={i}>{parrafo.trim()}</p>)
-        ) : (
-          <p className="text-muted-foreground">Este artículo todavía no tiene contenido.</p>
-        )}
-      </div>
+      {articulo.contenido ? (
+        <div
+          className="mt-8 leading-relaxed text-foreground/90 [&_p]:my-4 [&>*:first-child]:mt-0"
+          dangerouslySetInnerHTML={{ __html: contenidoToHtml(articulo.contenido) }}
+        />
+      ) : (
+        <p className="mt-8 text-muted-foreground">Este artículo todavía no tiene contenido.</p>
+      )}
 
       {articulo.imagenes && articulo.imagenes.length > 0 && (
         <div className="mt-10">
