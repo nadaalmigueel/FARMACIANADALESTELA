@@ -4,7 +4,7 @@ export const site = {
   phone: "+34689028889",
   phoneDisplay: "+34 689 028 889",
   whatsapp: "34689028889",
-  email: "farmacianadalestela@gmail.com",
+  email: "farmacianadalestela@hotmail.com",
   address: "Carrer Aragó, 231, Llevant, 07008 Palma, Illes Balears",
   addressShort: "Carrer Aragó, 231 · 07008 Palma",
   hours: "ABIERTO DE LUNES A SÁBADO DE 9 A 22H",
@@ -14,7 +14,7 @@ export const site = {
 export const navLinks = [
   { href: "/", label: "Inicio" },
   { href: "/nosotros", label: "Nosotros" },
-  { href: "/articulos", label: "Artículos" },
+  { href: "/articulos", label: "¿Sabías que?" },
   { href: "/servicios", label: "Servicios" },
   { href: "/contacto", label: "Contacto" },
 ]

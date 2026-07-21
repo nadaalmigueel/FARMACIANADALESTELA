@@ -28,6 +28,7 @@ export const articulos = pgTable("articulos", {
   categoria: text("categoria").notNull(),
   autor: text("autor").notNull(),
   imagen: text("imagen"),
+  imagenes: text("imagenes").array(),
   publicado: boolean("publicado").notNull().default(true),
   fecha: date("fecha").notNull().defaultNow(),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
