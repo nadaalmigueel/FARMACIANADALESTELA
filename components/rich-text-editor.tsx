@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useState, type ReactNode } from "react"
+import { useEffect, useRef, type ReactNode } from "react"
 import { Bold, Italic, AArrowUp, AArrowDown } from "lucide-react"
 
 function ToolbarButton({
@@ -39,19 +39,40 @@ export function RichTextEditor({
   minHeight?: number
 }) {
   const editorRef = useRef<HTMLDivElement>(null)
-  const [value, setValue] = useState(defaultValue)
+  const inputRef = useRef<HTMLInputElement>(null)
 
+  // Inicializa el contenido UNA sola vez, sin que React vuelva a tocar el
+  // contentEditable en cada pulsación (eso rompía la escritura y el cursor).
+  useEffect(() => {
+    if (editorRef.current) {
+      editorRef.current.innerHTML = defaultValue
+    }
+    if (inputRef.current) {
+      inputRef.current.value = defaultValue
+    }
+    // Solo al montar.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  // Copia el HTML actual del editor al input oculto que envía el formulario.
   function sync() {
-    setValue(editorRef.current?.innerHTML ?? "")
+    if (inputRef.current && editorRef.current) {
+      inputRef.current.value = editorRef.current.innerHTML
+    }
+  }
+
+  function focusEditor() {
+    editorRef.current?.focus()
   }
 
   function exec(command: "bold" | "italic") {
+    focusEditor()
     document.execCommand(command, false)
-    editorRef.current?.focus()
     sync()
   }
 
   function changeSize(size: string) {
+    focusEditor()
     const sel = window.getSelection()
     if (!sel || sel.rangeCount === 0 || sel.isCollapsed) return
     const range = sel.getRangeAt(0)
@@ -70,7 +91,6 @@ export function RichTextEditor({
     } catch {
       // Selección compleja: se ignora silenciosamente.
     }
-    editorRef.current?.focus()
     sync()
   }
 
@@ -99,14 +119,11 @@ export function RichTextEditor({
         role="textbox"
         aria-multiline="true"
         onInput={sync}
-        // El HTML inicial se fija una sola vez en el montaje; React no vuelve a
-        // tocar el contenido editable porque no recibe children.
-        dangerouslySetInnerHTML={{ __html: defaultValue }}
         className="max-w-none px-3 py-2.5 text-sm leading-relaxed text-foreground outline-none [&_p]:my-2 [&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
         style={{ minHeight }}
       />
 
-      <input type="hidden" name={name} value={value} />
+      <input ref={inputRef} type="hidden" name={name} defaultValue={defaultValue} />
     </div>
   )
 }
